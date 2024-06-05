@@ -2,6 +2,9 @@
 const config = {
   plugins: {
     tailwindcss: {},
+    'postcss-preset-mantine': {
+      autoRem: true,
+    },
   },
 };
 
