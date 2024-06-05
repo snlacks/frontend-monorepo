@@ -13,7 +13,7 @@ export const NavLinksExternal = () => {
         pl="xl"
         href="https://www.linkedin.com/in/stevenlacks/"
         label="LinkedIn"
-        target="blank"
+        target="_blank"
         rightSection={<NavChevron />}
         leftSection={<IconBrandLinkedin stroke="1" />}
       />
@@ -22,7 +22,7 @@ export const NavLinksExternal = () => {
         pl="xl"
         href="https://github.com/snlacks"
         label="Github"
-        target="blank"
+        target="_blank"
         rightSection={<NavChevron />}
         leftSection={<IconBrandGithub stroke="1" />}
       />
