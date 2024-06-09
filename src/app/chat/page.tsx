@@ -141,11 +141,9 @@ export default function Page() {
         <Grid.Col span={{ base: 12, lg: 6 }}>
           <Container
             h={{ base: "40vh", lg: "80vh" }}
-            bg="dark.8"
-            p="lg"
             className={classNames.history}
           >
-            <Stack gap="sm">
+            <Stack className={classNames.stack}>
               {history.map(({ question, response, key }) => (
                 <Card key={key} p="sm">
                   <Text>

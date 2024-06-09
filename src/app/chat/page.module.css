@@ -14,4 +14,15 @@
   border-radius: var(--mantine-radius-default);
   border: rem(1px) solid var(--mantine-color-default-border);
   overflow-y: auto;
+  padding: var(--mantine-spacing-md);
+  .stack {
+    gap: var(--mantine-spacing-md);
+  }
+}
+:where([data-mantine-color-scheme="light"]) .history {
+  background-color: var(--mantine-color-gray-1);
+}
+
+:where([data-mantine-color-scheme="dark"]) .history {
+  background-color: var(--mantine-color-dark-8);
 }
