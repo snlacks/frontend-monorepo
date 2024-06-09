@@ -17,11 +17,12 @@ import { useForm } from "@mantine/form";
 import axios, { AxiosProgressEvent } from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { marked } from "marked";
-import { AuthGuardWrapper } from "@/hooks/use-auth-guard";
+import { AuthGuardWrapper, useAuthGuard } from "@/hooks/use-auth-guard";
 
 import classNames from "./page.module.css";
 
 export default function Page() {
+  useAuthGuard(true);
   const [response, setResponse] = useState("");
   const [history, setHistory] = useState<
     { question: string; response: string; key: string }[]

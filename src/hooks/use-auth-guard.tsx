@@ -19,13 +19,15 @@ import {
  * @param eligibleRoles if present, checks for role. Otherwise, checks user exists.
  * @returns
  */
-export const useAuthGuard = (eligibleRoles?: Role[]) => {
+export const useAuthGuard = (redirect?: boolean, eligibleRoles?: Role[]) => {
   const { user, isInitial } = useUser();
   const router = useRouter();
   const hasRole = !!user?.roles.some(({ roleId }) => {
     return eligibleRoles?.some((el) => roleId === el.roleId);
   });
-
+  if (!redirect) {
+    return { isInitial };
+  }
   if (!isInitial) {
     if (!user) {
       router.push("/login");
