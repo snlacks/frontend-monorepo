@@ -1,11 +1,26 @@
-import { Box, Center, Container, Title } from "@mantine/core";
+"use client";
+import {
+  Box,
+  Center,
+  Title,
+  alpha,
+  parseThemeColor,
+  useMantineTheme,
+} from "@mantine/core";
 
 export default function Home() {
+  const theme = useMantineTheme();
   return (
     <main>
-      <Box bg="var(--mantine-color-blue-light)">
+      <Box
+        p="md"
+        bg={alpha(
+          parseThemeColor({ color: theme.colors.indigo[4], theme }).value,
+          0.1
+        )}
+      >
         <Center>
-          <Title>Home Page!</Title>
+          <Title order={2}>Home Page!</Title>
         </Center>
       </Box>
     </main>

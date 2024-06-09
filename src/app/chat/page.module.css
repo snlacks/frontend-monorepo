@@ -1,0 +1,17 @@
+.chat {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.form {
+  max-height: 10vh;
+}
+
+.send {
+  align-self: flex-start;
+}
+
+.history {
+  border-radius: var(--mantine-radius-default);
+  border: rem(1px) solid var(--mantine-color-default-border);
+  overflow-y: auto;
+}

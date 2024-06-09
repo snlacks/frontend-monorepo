@@ -1,6 +1,6 @@
+import { FormValuesWithPhoneNumber } from "@/utils/phone/types";
+
 export type RegisterForm = {
-    country_code: string;
-    regional_phone_number: string;
     username: string;
-    guest_key_id: string;
-};
+    guestKeyId: string;
+} & FormValuesWithPhoneNumber;

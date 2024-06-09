@@ -4,11 +4,9 @@ import {
   Alert,
   Button,
   Center,
-  Group,
   Loader,
-  NativeSelect,
+  LoadingOverlay,
   Stack,
-  Text,
   TextInput,
 } from "@mantine/core";
 import { useState } from "react";
@@ -17,23 +15,22 @@ import useSWRMutation from "swr/mutation";
 import classNames from "./register.module.css";
 import { RegisterForm } from "./types";
 import { registerSchema } from "./register-schema";
-import { fetchRegisterUser } from "./fetch-register-user";
 import { CreateUserDTO } from "./create-user-dto";
 import { SuccessModal } from "./success-modal";
-import { getCountryPrefix } from "@/utils/phone/phone";
-
-import countryCodes from "@/utils/phone/country-code-data.json";
-import { RegisterError } from "./register-error";
-import axios from "axios";
+import { ErrorMessage } from "@/components/error-message";
+import { PhoneNumberInput } from "@/components/phone-number-inputs";
+import { axiosPost } from "@/utils/fetch/axios-post";
+import { axiosSafeError } from "@/utils/fetch/axios-safe-error";
+import { UserResponse } from "@/types";
 
 export const Register = () => {
   const form = useForm<RegisterForm>({
     mode: "controlled",
     initialValues: {
       username: "",
-      regional_phone_number: "",
-      guest_key_id: "",
-      country_code: "US",
+      regionalPhoneNumber: "",
+      guestKeyId: "",
+      countryCode: "US",
     },
     validateInputOnBlur: true,
     validate: yupResolver(registerSchema),
@@ -45,30 +42,29 @@ export const Register = () => {
 
   const { trigger, isMutating } = useSWRMutation(
     "/auth/users",
-    fetchRegisterUser
+    axiosPost<CreateUserDTO, UserResponse>
   );
-
-  const prefix = getCountryPrefix(form.values.country_code);
 
   return (
     <form
-      onSubmit={form.onSubmit(async (values, e) => {
+      onSubmit={form.onSubmit(async (_, e) => {
         e?.preventDefault();
         try {
-          const data = await trigger(new CreateUserDTO(values));
+          const data = await trigger(new CreateUserDTO(form));
           if (data) {
             setShowSuccess(true);
           }
-        } catch (e: any) {
-          setNetError(
-            axios.isAxiosError(e)
-              ? e.response?.data?.message
-              : "Something went wrong."
-          );
+        } catch {
+          setNetError(axiosSafeError(e) ?? "Something went wrong.");
         }
       })}
       onChange={() => setNetError(undefined)}
     >
+      <LoadingOverlay
+        visible={isMutating}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <Stack gap="md" p="md">
         <TextInput
           label="Username (email)"
@@ -78,31 +74,12 @@ export const Register = () => {
           placeholder="your@email.com"
           {...form.getInputProps("username")}
         />
-        <Group align="start" justify="space-between" grow>
-          <NativeSelect
-            label="Country Code"
-            data={countryCodes}
-            key={form.key("country_code")}
-            {...form.getInputProps("country_code")}
-            flex="shrink"
-            maw={{ base: "100%", md: 95 }}
-          />
-          <TextInput
-            flex="grow"
-            label="Phone Number"
-            type="string"
-            leftSection={
-              <Text px="sm" w={80} fz="xs">
-                {prefix}
-              </Text>
-            }
-            key={form.key("regional_phone_number")}
-            placeholder="555-555-5555"
-            {...form.getInputProps("regional_phone_number")}
-            maw={{ base: "100%", md: 200 }}
-          />
-        </Group>
-        <TextInput label="Guest Key" {...form.getInputProps("guest_key_id")} />
+        <PhoneNumberInput form={form} />
+        <TextInput
+          label="Guest Key"
+          key={form.key("guestKeyId")}
+          {...form.getInputProps("guestKeyId")}
+        />
         <Button
           type="submit"
           className={classNames.submitButton}
@@ -110,7 +87,7 @@ export const Register = () => {
         >
           Register
         </Button>
-        <RegisterError
+        <ErrorMessage
           errorMessage={netError}
           onClose={() => setNetError(undefined)}
         />

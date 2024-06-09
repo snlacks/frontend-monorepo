@@ -7,20 +7,29 @@ import {
   AppShellNavbar,
   Burger,
   CloseButton,
-  Group,
-  NavLink,
   Title,
   Text,
   rem,
+  useMantineColorScheme,
+  SegmentedControl,
+  MantineColorScheme,
+  useComputedColorScheme,
+  Accordion,
+  Grid,
 } from "@mantine/core";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import Link from "next/link";
 import { NavLinksExternal } from "./nav-links-external";
 import classNames from "./app-shell-client.module.css";
-import { NavChevron } from "./nav-chevron";
 import { PropsWithChildren } from "react";
+import { IconChevronDown } from "@tabler/icons-react";
+import useUser from "@/hooks/use-user";
+import { AuthGuardSkeleton } from "../hooks/use-auth-guard";
 
 export const AppShellClient = ({ children }: PropsWithChildren) => {
+  const colorScheme = useComputedColorScheme();
+  const { user } = useUser();
+  const { setColorScheme } = useMantineColorScheme();
   const [opened, { toggle }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
   return (
@@ -37,35 +46,59 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
         style={{
           transform: `translate3d(0, ${pinned ? 0 : rem(-110)}, 0)`,
         }}
+        mah={{ base: "initial", lg: "100vh" }}
       >
-        <Group h="100%" gap="lg" pl="lg">
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            aria-label="Toggle navigation"
-          />
-          <Anchor component={Link} href="/" c="dark.8" underline="never">
-            <Title order={1}>
-              <Text size="xs" component="span">
-                demo.
-              </Text>
-              <Text fz={{ base: 28, md: 32 }} component="span" fw="bold">
+        <Grid h="100%" px="lg" align="center">
+          <Grid.Col span={2}>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              aria-label="Toggle navigation"
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 10, md: 8 }}>
+            <Anchor component={Link} href="/" underline="never">
+              <Title
+                order={1}
+                c="var(--mantine-color-text)"
+                ta={{ base: "left", md: "center" }}
+              >
                 StevenLacks.com
-              </Text>
-            </Title>
-          </Anchor>
-        </Group>
+              </Title>
+            </Anchor>
+          </Grid.Col>
+          <Grid.Col span={2} visibleFrom="md">
+            <AuthGuardSkeleton skeletonLines={1}>
+              <Text className={classNames.user}>{user?.username}</Text>
+            </AuthGuardSkeleton>
+          </Grid.Col>
+        </Grid>
       </AppShellHeader>
       <AppShellNavbar className={classNames.nav}>
-        <Group gap="0">
-          <NavLink
-            p="lg"
-            href="/sign-up"
-            label="Sign up"
-            rightSection={<NavChevron />}
-          />
+        <Accordion classNames={classNames}>
           <NavLinksExternal />
-        </Group>
+          <Accordion.Item value="settings">
+            <Accordion.Control
+              h={65}
+              chevron={<IconChevronDown size={24} stroke={1} />}
+            >
+              <Text fz="sm">Settings</Text>
+            </Accordion.Control>
+            <Accordion.Panel>
+              <Text p="lg" fz="sm">
+                Color theme?
+              </Text>
+              <SegmentedControl
+                p="lg"
+                onChange={(value) =>
+                  setColorScheme(value as MantineColorScheme)
+                }
+                value={colorScheme}
+                data={["dark", "light"] as MantineColorScheme[]}
+              />
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
         <CloseButton size="xl" aria-label="Close navigation" onClick={toggle} />
       </AppShellNavbar>
       <AppShellMain>{children}</AppShellMain>

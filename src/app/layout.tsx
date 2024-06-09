@@ -2,7 +2,7 @@ import "@mantine/core/styles.css";
 import "@/app/globals.css";
 
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
-import { AppShellClient } from "../components/app-shell-client";
+import { AppShellClient } from "@/components/app-shell-client";
 
 export const metadata = {
   title: "StevenLacks.com",
@@ -18,11 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <ColorSchemeScript />
-      </head>
+      <head></head>
       <body>
-        <MantineProvider theme={theme}>
+        <ColorSchemeScript defaultColorScheme="light" />
+        <MantineProvider theme={theme} defaultColorScheme="light">
           <AppShellClient>{children}</AppShellClient>
         </MantineProvider>
       </body>

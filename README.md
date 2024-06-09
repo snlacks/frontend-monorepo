@@ -1,1 +1,1 @@
-Portal for my generative AI app
+Portal for my generative AI app, using NextJS as the base.

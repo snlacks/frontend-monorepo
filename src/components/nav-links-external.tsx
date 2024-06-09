@@ -1,16 +1,59 @@
-import { NavLink, Text } from "@mantine/core";
+import { Button, NavLink, Text } from "@mantine/core";
 import { NavChevron } from "./nav-chevron";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
+import { axiosPost } from "@/utils/fetch/axios-post";
+import useSWRMutation from "swr/mutation";
+import useUser from "@/hooks/use-user";
+import { AuthGuardPlaceholder } from "../hooks/use-auth-guard";
 
 export const NavLinksExternal = () => {
+  const { user } = useUser();
+  const { isMutating, trigger } = useSWRMutation(
+    "/auth/sign-out",
+    axiosPost<undefined, undefined>
+  );
   return (
     <>
-      <Text p="lg" fz="sm">
-        My Links
-      </Text>
+      <AuthGuardPlaceholder containerProps={{ h: "200px" }}>
+        {user ? (
+          <Text p="lg">
+            {user?.username}{" "}
+            <Button
+              onClick={async () => {
+                try {
+                  await trigger();
+                  window.location.reload();
+                } finally {
+                  return;
+                }
+              }}
+              variant="outline"
+              color="red.8"
+              bg="dark.9"
+              disabled={isMutating}
+            >
+              Sign out
+            </Button>
+          </Text>
+        ) : (
+          <>
+            <NavLink
+              p="lg"
+              href="/login"
+              label="Log in"
+              rightSection={<NavChevron />}
+            />
+            <NavLink
+              p="lg"
+              href="/sign-up"
+              label="Sign up"
+              rightSection={<NavChevron />}
+            />
+          </>
+        )}
+      </AuthGuardPlaceholder>
       <NavLink
         p="lg"
-        pl="xl"
         href="https://www.linkedin.com/in/stevenlacks/"
         label="LinkedIn"
         target="_blank"
@@ -19,7 +62,6 @@ export const NavLinksExternal = () => {
       />
       <NavLink
         p="lg"
-        pl="xl"
         href="https://github.com/snlacks"
         label="Github"
         target="_blank"

@@ -8,7 +8,7 @@ export const SuccessModal = ({ opened }: { opened: boolean }) => {
       title="Success"
       withCloseButton={false}
       opened={opened}
-      onClose={() => {}}
+      onClose={() => undefined}
       centered
     >
       <Stack>

@@ -5,3 +5,11 @@
 .nav {
     justify-content: space-between;
 }
+
+.chevron {
+    width: 24px    
+}
+
+.user {
+    justify-self: end;
+}

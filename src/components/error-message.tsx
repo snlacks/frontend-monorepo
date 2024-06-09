@@ -1,7 +1,7 @@
 import { Alert } from "@mantine/core";
 import { IconCircleXFilled } from "@tabler/icons-react";
 
-export const RegisterError = ({
+export const ErrorMessage = ({
   errorMessage,
   onClose,
 }: {
