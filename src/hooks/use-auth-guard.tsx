@@ -41,9 +41,10 @@ export const useAuthGuard = (redirect?: boolean, eligibleRoles?: Role[]) => {
 
 export const AuthGuardWrapper = ({
   eligibleRoles,
+  redirect,
   children,
-}: PropsWithChildren<{ eligibleRoles?: Role[] }>) => {
-  const { isInitial } = useAuthGuard(eligibleRoles);
+}: PropsWithChildren<{ eligibleRoles?: Role[]; redirect?: boolean }>) => {
+  const { isInitial } = useAuthGuard(redirect, eligibleRoles);
   return (
     <>
       {isInitial && (
@@ -62,13 +63,15 @@ export const AuthGuardPlaceholder = ({
   eligibleRoles,
   loaderProps = {},
   containerProps = {},
+  redirect,
   children,
 }: PropsWithChildren<{
   eligibleRoles?: Role[];
   loaderProps?: LoaderProps;
   containerProps?: ContainerProps;
+  redirect?: boolean;
 }>) => {
-  const { isInitial } = useAuthGuard(eligibleRoles);
+  const { isInitial } = useAuthGuard(redirect, eligibleRoles);
   return (
     <>
       {isInitial ? (
@@ -88,6 +91,7 @@ export const AuthGuardSkeleton = ({
   eligibleRoles,
   skeletonLines = 1,
   skeletonProps = {},
+  redirect,
   children,
 }: PropsWithChildren<{
   eligibleRoles?: Role[];
@@ -95,6 +99,7 @@ export const AuthGuardSkeleton = ({
   containerProps?: ContainerProps;
   skeletonProps?: SkeletonProps;
   skeletonLines?: number;
+  redirect?: boolean;
 }>) => {
   const [lines] = useState(() => {
     const temp = [];
@@ -103,7 +108,7 @@ export const AuthGuardSkeleton = ({
     }
     return temp;
   });
-  const { isInitial } = useAuthGuard(eligibleRoles);
+  const { isInitial } = useAuthGuard(redirect, eligibleRoles);
 
   return (
     <>
