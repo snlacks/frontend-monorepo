@@ -30,6 +30,7 @@ export const Register = () => {
       username: "",
       regionalPhoneNumber: "",
       guestKeyId: "",
+      password: "",
       countryCode: "US",
     },
     validateInputOnBlur: true,
@@ -73,6 +74,14 @@ export const Register = () => {
           key={form.key("username")}
           placeholder="your@email.com"
           {...form.getInputProps("username")}
+        />
+        <TextInput
+          label="Password"
+          type="password"
+          withAsterisk
+          key={form.key("password")}
+          placeholder="********"
+          {...form.getInputProps("password")}
         />
         <PhoneNumberInput form={form} />
         <TextInput

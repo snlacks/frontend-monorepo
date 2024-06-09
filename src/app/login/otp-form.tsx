@@ -11,8 +11,10 @@ import { failedLoginMessage } from "./constants";
 import { UserResponse } from "@/types";
 import { User } from "@/User";
 import { LoginContext } from "./login-provider";
+import { useRouter } from "next/navigation";
 
 export const OtpForm = () => {
+  const router = useRouter();
   const { mutate: refreshUser } = useUser();
   const [netError, setNetError] = useState<string>();
   const { usernameRequested } = useContext(LoginContext);
@@ -33,9 +35,13 @@ export const OtpForm = () => {
           try {
             const data = await trigger(new LoginDTO(form));
             if (data) {
-              refreshUser(new User(data)).catch(() => {
-                throw "";
-              });
+              refreshUser(new User(data))
+                .then(() => {
+                  router.push("/chat");
+                })
+                .catch(() => {
+                  throw "";
+                });
             }
           } catch {
             setNetError(failedLoginMessage);

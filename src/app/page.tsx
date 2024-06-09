@@ -7,6 +7,8 @@ import {
   parseThemeColor,
   useMantineTheme,
 } from "@mantine/core";
+import Link from "next/link";
+import { AuthGuardSkeleton } from "../hooks/use-auth-guard";
 
 export default function Home() {
   const theme = useMantineTheme();
@@ -22,6 +24,11 @@ export default function Home() {
         <Center>
           <Title order={2}>Home Page!</Title>
         </Center>
+      </Box>
+      <Box p="md">
+        <AuthGuardSkeleton skeletonProps={{ w: 100 }}>
+          <Link href="/chat">Go to chat.</Link>
+        </AuthGuardSkeleton>
       </Box>
     </main>
   );

@@ -30,7 +30,7 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
   const colorScheme = useComputedColorScheme();
   const { user } = useUser();
   const { setColorScheme } = useMantineColorScheme();
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle, close }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
   return (
     <AppShell
@@ -76,7 +76,7 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
       </AppShellHeader>
       <AppShellNavbar className={classNames.nav}>
         <Accordion classNames={classNames}>
-          <NavLinksExternal />
+          <NavLinksExternal onLinkClick={close} />
           <Accordion.Item value="settings">
             <Accordion.Control
               h={65}
@@ -99,7 +99,7 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-        <CloseButton size="xl" aria-label="Close navigation" onClick={toggle} />
+        <CloseButton size="xl" aria-label="Close navigation" onClick={close} />
       </AppShellNavbar>
       <AppShellMain>{children}</AppShellMain>
     </AppShell>

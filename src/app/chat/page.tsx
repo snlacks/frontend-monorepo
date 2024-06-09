@@ -32,7 +32,7 @@ export default function Page() {
   const fetcher = useCallback(
     (question: string) =>
       axios.post(
-        "/ai-chat/chat-stream",
+        `${process.env.NEXT_PUBLIC_AUTH_SERVER}/ai-chat/chat-stream`,
         { message: question },
         {
           responseType: "stream",

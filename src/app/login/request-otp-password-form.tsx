@@ -48,7 +48,6 @@ export const RequestOtpPasswordForm = () => {
         e?.preventDefault();
         try {
           const d = await trigger(new RequestOtpDTO(form));
-          console.log(d);
           if (d.hasOwnProperty("user_id")) {
             router.push("/chat");
           } else {

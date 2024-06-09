@@ -8,8 +8,10 @@ export class CreateUserDTO {
         this.username = form.values.username;
         this.phone_number = getPhoneNumberFromForm(form)
         this.guest_key_id = form.values.guestKeyId;
+        this.password = form.values.password;
     }
     username: string;
     phone_number: string;
     guest_key_id: string;
+    password: string;
 }

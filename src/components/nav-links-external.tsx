@@ -6,7 +6,11 @@ import useSWRMutation from "swr/mutation";
 import useUser from "@/hooks/use-user";
 import { AuthGuardPlaceholder } from "../hooks/use-auth-guard";
 
-export const NavLinksExternal = () => {
+export const NavLinksExternal = ({
+  onLinkClick,
+}: {
+  onLinkClick: () => void;
+}) => {
   const { user } = useUser();
   const { isMutating, trigger } = useSWRMutation(
     "/auth/sign-out",
@@ -42,12 +46,14 @@ export const NavLinksExternal = () => {
               href="/login"
               label="Log in"
               rightSection={<NavChevron />}
+              onClick={onLinkClick}
             />
             <NavLink
               p="lg"
               href="/sign-up"
               label="Sign up"
               rightSection={<NavChevron />}
+              onClick={onLinkClick}
             />
           </>
         )}
