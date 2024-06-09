@@ -9,7 +9,7 @@ export default function RequestOtp() {
   const [loginMethod, setLoginMethod] = useState("Password");
   return (
     <>
-      <Title order={2}>Request SMS Password</Title>
+      <Title order={2}>Sign In</Title>
       <SegmentedControl
         data={["Password", "SMS"]}
         onChange={setLoginMethod}

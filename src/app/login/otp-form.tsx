@@ -26,7 +26,7 @@ export const OtpForm = () => {
   );
   return (
     <>
-      <Title order={2}>Request SMS Password</Title>
+      <Title order={2}>Sign In</Title>
       <form
         onSubmit={form.onSubmit(async (_, e) => {
           e?.preventDefault();
