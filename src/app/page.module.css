@@ -1,0 +1,11 @@
+.welcome {
+  border-radius: var(--mantine-radius-default);
+
+  @mixin dark {
+    background: var(--mantine-color-dark-6);
+  }
+
+  @mixin light {
+    background: var(--mantine-color-gray-2);
+  }
+}

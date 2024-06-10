@@ -36,15 +36,20 @@ export const useAuthGuard = (redirect?: boolean, eligibleRoles?: Role[]) => {
       router.push("/login");
     }
   }
-  return { isInitial };
+  return { isInitial, user };
 };
 
 export const AuthGuardWrapper = ({
   eligibleRoles,
   redirect,
   children,
-}: PropsWithChildren<{ eligibleRoles?: Role[]; redirect?: boolean }>) => {
+}: PropsWithChildren<{
+  eligibleRoles?: Role[];
+  redirect?: boolean;
+  Fallback?: null | (() => JSX.Element);
+}>) => {
   const { isInitial } = useAuthGuard(redirect, eligibleRoles);
+
   return (
     <>
       {isInitial && (

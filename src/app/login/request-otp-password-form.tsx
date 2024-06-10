@@ -58,7 +58,7 @@ export const RequestOtpPasswordForm = () => {
         }
       })}
     >
-      <Stack p="md" gap="md">
+      <Stack p="lg" gap="lg">
         {(data ?? isMutating) && <LoadingOverlay />}
         <TextInput
           label="Username (email)"
@@ -83,7 +83,6 @@ export const RequestOtpPasswordForm = () => {
         />
         <RequestOtpButtons
           submitDisabled={isMutating || !form.isValid()}
-          skipDisabled={!!form.errors.username || !form.isDirty()}
           onSkipClick={() => setUsernameRequested(form.values.username)}
         />
       </Stack>

@@ -12,6 +12,7 @@ import { UserResponse } from "@/types";
 import { User } from "@/User";
 import { LoginContext } from "./login-provider";
 import { useRouter } from "next/navigation";
+import classes from "./otp-form.module.css";
 
 export const OtpForm = () => {
   const router = useRouter();
@@ -48,12 +49,22 @@ export const OtpForm = () => {
           }
         })}
       >
-        <Stack p="md" gap="md">
-          <TextInput label="Username" {...form.getInputProps("username")} />
-          <PinInput {...form.getInputProps("password")} length={6} />
-          <Button type="submit" disabled={isMutating}>
-            Submit
-          </Button>
+        <Stack p="lg" gap="lg">
+          <TextInput
+            label="Username"
+            {...form.getInputProps("username")}
+            className={classes.username}
+          />
+          <PinInput
+            {...form.getInputProps("password")}
+            className={classes.pin}
+            length={6}
+          />
+          <div>
+            <Button type="submit" disabled={isMutating}>
+              Submit
+            </Button>
+          </div>
         </Stack>
       </form>
       <ErrorMessage

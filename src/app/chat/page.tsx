@@ -19,7 +19,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { marked } from "marked";
 import { AuthGuardWrapper, useAuthGuard } from "@/hooks/use-auth-guard";
 
-import classNames from "./page.module.css";
+import classes from "./page.module.css";
 
 export default function Page() {
   useAuthGuard(true);
@@ -77,14 +77,14 @@ export default function Page() {
               {loading ? (
                 <Container
                   mah={{ base: "30vh", lg: "70vh" }}
-                  className={classNames.chat}
+                  className={classes.chat}
                 >
                   <Loader />
                 </Container>
               ) : (
                 <Container
                   mah={{ base: "30vh", lg: "70vh" }}
-                  className={classNames.chat}
+                  className={classes.chat}
                   ref={ref}
                   dangerouslySetInnerHTML={{ __html: marked.parse(response) }}
                 ></Container>
@@ -122,13 +122,13 @@ export default function Page() {
                 <Stack gap="sm">
                   <Textarea {...form.getInputProps("question")} />
                   <Group>
-                    <Button type="submit" className={classNames.send}>
+                    <Button type="submit" className={classes.send}>
                       Send
                     </Button>
                     <Button
                       variant="light"
                       onClick={form.reset}
-                      className={classNames.send}
+                      className={classes.send}
                     >
                       Clear
                     </Button>
@@ -141,9 +141,9 @@ export default function Page() {
         <Grid.Col span={{ base: 12, lg: 6 }}>
           <Container
             h={{ base: "40vh", lg: "80vh" }}
-            className={classNames.history}
+            className={classes.history}
           >
-            <Stack className={classNames.stack}>
+            <Stack className={classes.stack}>
               {history.map(({ question, response, key }) => (
                 <Card key={key} p="sm">
                   <Text>

@@ -20,8 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body>
-        <ColorSchemeScript defaultColorScheme="light" />
-        <MantineProvider theme={theme} defaultColorScheme="light">
+        <ColorSchemeScript />
+        <MantineProvider theme={theme}>
           <AppShellClient>{children}</AppShellClient>
         </MantineProvider>
       </body>

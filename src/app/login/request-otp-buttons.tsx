@@ -2,11 +2,9 @@ import { Group, Button } from "@mantine/core";
 
 export const RequestOtpButtons = ({
   submitDisabled,
-  skipDisabled,
   onSkipClick,
 }: {
   submitDisabled: boolean;
-  skipDisabled: boolean;
   onSkipClick: () => void;
 }) => {
   return (
@@ -14,7 +12,7 @@ export const RequestOtpButtons = ({
       <Button type="submit" disabled={submitDisabled}>
         Sign in
       </Button>
-      <Button disabled={skipDisabled} onClick={onSkipClick}>
+      <Button variant="subtle" onClick={onSkipClick}>
         Enter SMS Passcode
       </Button>
     </Group>

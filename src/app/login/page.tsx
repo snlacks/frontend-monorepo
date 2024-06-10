@@ -13,7 +13,7 @@ export default function Page() {
     router.push("/chat");
   }
   return (
-    <Container w="380px">
+    <Container w="350px">
       <Stack gap="md" justify="center" ta="center">
         {user ? (
           <Title>You&apos;re already logged in</Title>

@@ -20,7 +20,7 @@ import {
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import Link from "next/link";
 import { NavLinksExternal } from "./nav-links-external";
-import classNames from "./app-shell-client.module.css";
+import classes from "./app-shell-client.module.css";
 import { PropsWithChildren } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
@@ -69,13 +69,13 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
           </Grid.Col>
           <Grid.Col span={2} visibleFrom="md">
             <AuthGuardSkeleton skeletonLines={1}>
-              <Text className={classNames.user}>{user?.username}</Text>
+              <Text className={classes.user}>{user?.username}</Text>
             </AuthGuardSkeleton>
           </Grid.Col>
         </Grid>
       </AppShellHeader>
-      <AppShellNavbar className={classNames.nav}>
-        <Accordion classNames={classNames}>
+      <AppShellNavbar className={classes.nav}>
+        <Accordion classes={classes}>
           <NavLinksExternal onLinkClick={close} />
           <Accordion.Item value="settings">
             <Accordion.Control

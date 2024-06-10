@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
-import classNames from "./register.module.css";
+import classes from "./register.module.css";
 import { RegisterForm } from "./types";
 import { registerSchema } from "./register-schema";
 import { CreateUserDTO } from "./create-user-dto";
@@ -91,7 +91,7 @@ export const Register = () => {
         />
         <Button
           type="submit"
-          className={classNames.submitButton}
+          className={classes.submitButton}
           disabled={isMutating || !form.isValid()}
         >
           Register

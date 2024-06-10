@@ -48,7 +48,7 @@ export const RequestOtpSmsForm = () => {
         }
       })}
     >
-      <Stack p="md" gap="md">
+      <Stack p="lg" gap="lg">
         <TextInput
           label="Username (email)"
           type="email"
@@ -64,7 +64,6 @@ export const RequestOtpSmsForm = () => {
         />
         <RequestOtpButtons
           submitDisabled={isMutating || !form.isValid()}
-          skipDisabled={!form.isDirty() || !!form.errors.username}
           onSkipClick={() => setUsernameRequested(form.values.username)}
         />
       </Stack>

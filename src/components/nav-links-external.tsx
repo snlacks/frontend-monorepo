@@ -33,7 +33,6 @@ export const NavLinksExternal = ({
               }}
               variant="outline"
               color="red.8"
-              bg="dark.9"
               disabled={isMutating}
             >
               Sign out

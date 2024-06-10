@@ -1,26 +1,14 @@
 "use client";
-import {
-  Box,
-  Center,
-  Title,
-  alpha,
-  parseThemeColor,
-  useMantineTheme,
-} from "@mantine/core";
+import { Box, Center, Title } from "@mantine/core";
 import Link from "next/link";
 import { AuthGuardSkeleton } from "../hooks/use-auth-guard";
+import classes from "./page.module.css";
 
 export default function Home() {
-  const theme = useMantineTheme();
   return (
     <main>
-      <Box
-        p="md"
-        bg={alpha(
-          parseThemeColor({ color: theme.colors.indigo[4], theme }).value,
-          0.1
-        )}
-      >
+      {" "}
+      <Box p="md" className={classes.welcome}>
         <Center>
           <Title order={2}>Home Page!</Title>
         </Center>
