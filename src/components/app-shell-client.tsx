@@ -75,7 +75,7 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
         </Grid>
       </AppShellHeader>
       <AppShellNavbar className={classes.nav}>
-        <Accordion classes={classes}>
+        <Accordion>
           <NavLinksExternal onLinkClick={close} />
           <Accordion.Item value="settings">
             <Accordion.Control
