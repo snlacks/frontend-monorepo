@@ -16,7 +16,7 @@ export default function Page() {
     <Container w="350px">
       <Stack gap="md" justify="center" ta="center">
         {user ? (
-          <Title>You&apos;re already logged in</Title>
+          <Title>Logged in...</Title>
         ) : (
           <AuthGuardPlaceholder>
             <LoginProvider>

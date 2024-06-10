@@ -15,7 +15,10 @@ const fetcher = (path: string) => axios.post<UserResponse>(path)
     .catch(() => { throw 'Something went wrong refreshing user' })
 
 export default function useUser() {
-    const { data, error, isLoading, mutate } = useSWR<User, Error>("/auth/refresh", fetcher, { errorRetryCount: 1, errorRetryInterval: 1000 })
+    const { data, error, isLoading, mutate } = useSWR<User, Error>("/auth/refresh", fetcher, {
+        errorRetryCount: 1, errorRetryInterval: 1000,
+        revalidateOnFocus: false,
+    })
     const [isInitial, setIsInitial] = useState(true);
     useEffect(() => {
         if (data ?? error) {

@@ -1,0 +1,11 @@
+.chat {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.form {
+  max-height: 10vh;
+}
+
+.send {
+  align-self: flex-start;
+}

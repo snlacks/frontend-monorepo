@@ -19,7 +19,7 @@ const smsSchema = yup.object().shape({
 });
 
 export const RequestOtpSmsForm = () => {
-  const { setUsernameRequested } = useContext(LoginContext);
+  const { setUsernameRequested, setHasPasscode } = useContext(LoginContext);
   const form = useForm<SmsOtpFormValues>({
     mode: "controlled",
     initialValues: {
@@ -64,7 +64,11 @@ export const RequestOtpSmsForm = () => {
         />
         <RequestOtpButtons
           submitDisabled={isMutating || !form.isValid()}
-          onSkipClick={() => setUsernameRequested(form.values.username)}
+          onSkipClick={() =>
+            form.values.username
+              ? setUsernameRequested(form.values.username)
+              : setHasPasscode(true)
+          }
         />
       </Stack>
     </form>

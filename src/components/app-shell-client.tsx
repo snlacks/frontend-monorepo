@@ -25,13 +25,18 @@ import { PropsWithChildren } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
 import { AuthGuardSkeleton } from "../hooks/use-auth-guard";
+import { Loading } from "./loading";
+import { useSignout } from "../hooks/use-signout";
+import { useLogin } from "../hooks/use-login";
+import { AppSettings } from "./app-settings";
 
 export const AppShellClient = ({ children }: PropsWithChildren) => {
-  const colorScheme = useComputedColorScheme();
-  const { user } = useUser();
-  const { setColorScheme } = useMantineColorScheme();
+  const { user, isLoading, isInitial } = useUser();
+  const { isMutating: isLogginIn } = useLogin();
+  const { isMutating: isSigningOut } = useSignout();
   const [opened, { toggle, close }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
+
   return (
     <AppShell
       padding={{ base: "md", lg: "xl" }}
@@ -85,23 +90,18 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
               <Text fz="sm">Settings</Text>
             </Accordion.Control>
             <Accordion.Panel>
-              <Text p="lg" fz="sm">
-                Color theme?
-              </Text>
-              <SegmentedControl
-                p="lg"
-                onChange={(value) =>
-                  setColorScheme(value as MantineColorScheme)
-                }
-                value={colorScheme}
-                data={["dark", "light"] as MantineColorScheme[]}
-              />
+              <AppSettings />
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
         <CloseButton size="xl" aria-label="Close navigation" onClick={close} />
       </AppShellNavbar>
-      <AppShellMain>{children}</AppShellMain>
+      <AppShellMain>
+        <Loading visible={isSigningOut} />
+        <Loading visible={isLoading && isInitial} />
+        <Loading visible={isLogginIn} />
+        {children}
+      </AppShellMain>
     </AppShell>
   );
 };

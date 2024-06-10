@@ -25,14 +25,14 @@ export const PhoneNumberInput: <T extends FormValuesWithPhoneNumber>(props: {
         label="Phone Number"
         type="string"
         leftSection={
-          <Text px="sm" w={80} fz="xs">
+          <Text px="sm" w={78} fz="xs">
             {prefix}
           </Text>
         }
         key={form.key("regionalPhoneNumber")}
         placeholder="555-555-5555"
         {...form.getInputProps("regionalPhoneNumber")}
-        maw={{ base: "100%", md: 200 }}
+        maw={{ base: "100%", md: 167 }}
       />
     </Group>
   );

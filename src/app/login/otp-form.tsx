@@ -1,12 +1,21 @@
 "use client";
-import { Stack, Button, Title, TextInput, PinInput } from "@mantine/core";
+import {
+  Stack,
+  Button,
+  Title,
+  TextInput,
+  PinInput,
+  Group,
+} from "@mantine/core";
 import { useContext, useState } from "react";
 import { ErrorMessage } from "@/components/error-message";
-import { useForm } from "@mantine/form";
+import { useForm, yupResolver } from "@mantine/form";
 import { LoginDTO } from "./login-dto";
 import useSWRMutation from "swr/mutation";
 import { axiosPost } from "@/utils/fetch/axios-post";
 import useUser from "@/hooks/use-user";
+import * as yup from "yup";
+
 import { failedLoginMessage } from "./constants";
 import { UserResponse } from "@/types";
 import { User } from "@/User";
@@ -14,14 +23,20 @@ import { LoginContext } from "./login-provider";
 import { useRouter } from "next/navigation";
 import classes from "./otp-form.module.css";
 
+const loginSchema = yup.object().shape({
+  username: yup.string().email(),
+  password: yup.string(),
+});
+
 export const OtpForm = () => {
   const router = useRouter();
   const { mutate: refreshUser } = useUser();
   const [netError, setNetError] = useState<string>();
-  const { usernameRequested } = useContext(LoginContext);
+  const { usernameRequested, setHasPasscode } = useContext(LoginContext);
   const form = useForm({
     mode: "controlled",
     initialValues: { username: usernameRequested ?? "", password: "" },
+    validate: yupResolver(loginSchema),
   });
   const { trigger, isMutating } = useSWRMutation(
     "/auth/login",
@@ -52,19 +67,26 @@ export const OtpForm = () => {
         <Stack p="lg" gap="lg">
           <TextInput
             label="Username"
-            {...form.getInputProps("username")}
             className={classes.username}
+            {...form.getInputProps("username")}
           />
           <PinInput
-            {...form.getInputProps("password")}
             className={classes.pin}
             length={6}
+            {...form.getInputProps("password")}
           />
-          <div>
+          <Group gap="sm" justify="center">
             <Button type="submit" disabled={isMutating}>
               Submit
             </Button>
-          </div>
+            <Button
+              variant="subtle"
+              disabled={isMutating}
+              onClick={() => setHasPasscode(false)}
+            >
+              Request new code
+            </Button>
+          </Group>
         </Stack>
       </form>
       <ErrorMessage

@@ -1,10 +1,9 @@
 import { Button, NavLink, Text } from "@mantine/core";
 import { NavChevron } from "./nav-chevron";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
-import { axiosPost } from "@/utils/fetch/axios-post";
-import useSWRMutation from "swr/mutation";
 import useUser from "@/hooks/use-user";
 import { AuthGuardPlaceholder } from "../hooks/use-auth-guard";
+import { useSignout } from "../hooks/use-signout";
 
 export const NavLinksExternal = ({
   onLinkClick,
@@ -12,10 +11,7 @@ export const NavLinksExternal = ({
   onLinkClick: () => void;
 }) => {
   const { user } = useUser();
-  const { isMutating, trigger } = useSWRMutation(
-    "/auth/sign-out",
-    axiosPost<undefined, undefined>
-  );
+  const { isMutating, trigger: triggerSignOut } = useSignout();
   return (
     <>
       <AuthGuardPlaceholder containerProps={{ h: "200px" }}>
@@ -25,7 +21,7 @@ export const NavLinksExternal = ({
             <Button
               onClick={async () => {
                 try {
-                  await trigger();
+                  await triggerSignOut();
                   window.location.reload();
                 } finally {
                   return;

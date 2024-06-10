@@ -9,10 +9,10 @@ import {
   Flex,
   Loader,
   LoaderProps,
-  LoadingOverlay,
   Skeleton,
   SkeletonProps,
 } from "@mantine/core";
+import { Loading } from "@/components/loading";
 
 /**
  *
@@ -52,13 +52,7 @@ export const AuthGuardWrapper = ({
 
   return (
     <>
-      {isInitial && (
-        <LoadingOverlay
-          visible
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 2 }}
-        />
-      )}
+      <Loading visible={isInitial} />
       {children}
     </>
   );

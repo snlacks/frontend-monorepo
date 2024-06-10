@@ -4,6 +4,6 @@ import RequestOtp from "./request-otp";
 import { OtpForm } from "./otp-form";
 
 export const LoginMultiForm = () => {
-  const { usernameRequested } = useContext(LoginContext);
-  return usernameRequested ? <OtpForm /> : <RequestOtp />;
+  const { hasPasscode } = useContext(LoginContext);
+  return hasPasscode ? <OtpForm /> : <RequestOtp />;
 };

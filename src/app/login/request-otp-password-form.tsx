@@ -12,6 +12,7 @@ import { failedLoginMessage } from "./constants";
 import { RequestOtpButtons } from "./request-otp-buttons";
 import { LoginContext } from "./login-provider";
 import { SmsResponse, UserResponse } from "@/types";
+import useUser from "../../hooks/use-user";
 
 const passwordSchema = yup.object().shape({
   username: yup.string().required(),
@@ -19,7 +20,8 @@ const passwordSchema = yup.object().shape({
 });
 
 export const RequestOtpPasswordForm = () => {
-  const { setUsernameRequested } = useContext(LoginContext);
+  const { mutate } = useUser();
+  const { setUsernameRequested, setHasPasscode } = useContext(LoginContext);
   const form = useForm<PasswordOtpFormValues>({
     mode: "controlled",
     initialValues: {
@@ -46,9 +48,11 @@ export const RequestOtpPasswordForm = () => {
     <form
       onSubmit={form.onSubmit(async (_, e) => {
         e?.preventDefault();
+        setNetError(undefined);
         try {
           const d = await trigger(new RequestOtpDTO(form));
           if (d.hasOwnProperty("user_id")) {
+            await mutate();
             router.push("/chat");
           } else {
             setUsernameRequested(form.values.username);
@@ -83,7 +87,11 @@ export const RequestOtpPasswordForm = () => {
         />
         <RequestOtpButtons
           submitDisabled={isMutating || !form.isValid()}
-          onSkipClick={() => setUsernameRequested(form.values.username)}
+          onSkipClick={() =>
+            form.values.username
+              ? setUsernameRequested(form.values.username)
+              : setHasPasscode(true)
+          }
         />
       </Stack>
     </form>

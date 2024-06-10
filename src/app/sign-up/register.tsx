@@ -1,14 +1,6 @@
 "use client";
 import { useForm, yupResolver } from "@mantine/form";
-import {
-  Alert,
-  Button,
-  Center,
-  Loader,
-  LoadingOverlay,
-  Stack,
-  TextInput,
-} from "@mantine/core";
+import { Alert, Button, Center, Loader, Stack, TextInput } from "@mantine/core";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
@@ -61,11 +53,6 @@ export const Register = () => {
       })}
       onChange={() => setNetError(undefined)}
     >
-      <LoadingOverlay
-        visible={isMutating}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-      />
       <Stack gap="md" p="md">
         <TextInput
           label="Username (email)"
