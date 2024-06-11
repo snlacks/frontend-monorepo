@@ -58,6 +58,7 @@ export const useAiStream = (): {
                 ])
                 return response;
             } catch (e) {
+                setLoading(false)
                 console.error(e)
             }
         })
