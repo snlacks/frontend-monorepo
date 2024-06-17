@@ -9,6 +9,5 @@ export const registerSchema = yup.object<RegisterForm>({
         .string()
         .email("Username must be a valid email")
         .required(requiredMessage),
-    guestKeyId: yup.string().uuid("Must be a valid key").required(requiredMessage),
     ...withPhoneValidationSchema()
 });

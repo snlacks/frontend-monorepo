@@ -21,7 +21,6 @@ export const Register = () => {
     initialValues: {
       username: "",
       regionalPhoneNumber: "",
-      guestKeyId: "",
       password: "",
       countryCode: "US",
     },
@@ -71,11 +70,6 @@ export const Register = () => {
           {...form.getInputProps("password")}
         />
         <PhoneNumberInput form={form} />
-        <TextInput
-          label="Guest Key"
-          key={form.key("guestKeyId")}
-          {...form.getInputProps("guestKeyId")}
-        />
         <Button
           type="submit"
           className={classes.submitButton}
