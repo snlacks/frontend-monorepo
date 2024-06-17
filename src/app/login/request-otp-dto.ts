@@ -1,17 +1,16 @@
 import { getPhoneNumberFromForm } from "@/utils/phone/phone";
-import { PasswordForm, SmsForm } from "./types";
+import { SmsForm } from "./types";
 
 export class RequestOtpDTO {
-    constructor(form: SmsForm | PasswordForm) {
-        this.username = form.values.username;
-        if ((form as SmsForm).values.regionalPhoneNumber) {
-            this.phone_number = getPhoneNumberFromForm(form as SmsForm)
-        }
-        if (typeof (form as PasswordForm).values.password === "string") {
-            this.password = (form as PasswordForm).values.password;
-        }
+    constructor(form: SmsForm) {
+        const { values: { method, username } } = form
+        this.username = username;
+        this.method = method === 'sms' ? 'sms' : 'email';
+        this.phone_number = getPhoneNumberFromForm(form)
+
     }
     username: string;
     phone_number?: string;
-    password?: string
+    password?: string;
+    method: 'sms' | 'email';
 };

@@ -1,9 +1,9 @@
 "use client";
 import { Box, Center, Title } from "@mantine/core";
 import Link from "next/link";
-import { AuthGuardSkeleton } from "../hooks/use-auth-guard";
+import { AuthGuardSkeleton } from "@/hooks/use-auth-guard";
 import classes from "./page.module.css";
-import useUser from "../hooks/use-user";
+import useUser from "@/hooks/use-user";
 
 export default function Home() {
   const { user } = useUser();

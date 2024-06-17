@@ -1,18 +1,19 @@
 import { FormValuesWithPhoneNumber } from "@/utils/phone/types";
 import { UseFormReturnType } from "@mantine/form";
 
-export interface SmsOtpFormValues extends FormValuesWithPhoneNumber {
+export interface OtpFormValues extends FormValuesWithPhoneNumber {
   username: string;
+  method: string;
 }
 
-export interface PasswordOtpFormValues {
+export interface LoginPasswordFormValues {
   username: string;
   password: string;
 }
 
 export type PasswordForm = UseFormReturnType<
-  PasswordOtpFormValues,
-  (values: PasswordOtpFormValues) => PasswordOtpFormValues
+  LoginPasswordFormValues,
+  (values: LoginPasswordFormValues) => LoginPasswordFormValues
 >;
 
-export type SmsForm = UseFormReturnType<SmsOtpFormValues>;
+export type SmsForm = UseFormReturnType<OtpFormValues>;

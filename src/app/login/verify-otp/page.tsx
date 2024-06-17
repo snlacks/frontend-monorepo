@@ -1,13 +1,6 @@
 "use client";
-import {
-  Stack,
-  Button,
-  Title,
-  TextInput,
-  PinInput,
-  Group,
-} from "@mantine/core";
-import { useContext, useState } from "react";
+import { Stack, Button, TextInput, PinInput, Group, Text } from "@mantine/core";
+import { useState } from "react";
 import { ErrorMessage } from "@/components/error-message";
 import { useForm, yupResolver } from "@mantine/form";
 import { LoginDTO } from "./login-dto";
@@ -16,43 +9,55 @@ import { axiosPost } from "@/utils/fetch/axios-post";
 import useUser from "@/hooks/use-user";
 import * as yup from "yup";
 
-import { failedLoginMessage } from "./constants";
+import { failedLoginMessage } from "../constants";
 import { UserResponse } from "@/types";
 import { User } from "@/User";
-import { LoginContext } from "./login-provider";
-import { useRouter } from "next/navigation";
-import classes from "./otp-form.module.css";
+import { useRouter, useSearchParams } from "next/navigation";
+import classes from "./page.module.css";
+import { useLocalStorage } from "@mantine/hooks";
+import { LOGIN_USERNAME_KEY } from "../login-username-key";
 
 const loginSchema = yup.object().shape({
   username: yup.string().email(),
   password: yup.string(),
 });
 
-export const OtpForm = () => {
+export default function VerifyOtp() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [username, , removeUsername] = useLocalStorage({
+    key: LOGIN_USERNAME_KEY,
+  });
   const { mutate: refreshUser } = useUser();
   const [netError, setNetError] = useState<string>();
-  const { usernameRequested, setHasPasscode } = useContext(LoginContext);
   const form = useForm({
     mode: "controlled",
-    initialValues: { username: usernameRequested ?? "", password: "" },
+    initialValues: { username, password: "" },
     validate: yupResolver(loginSchema),
   });
+
   const { trigger, isMutating } = useSWRMutation(
     "/auth/login",
     axiosPost<LoginDTO, UserResponse>
   );
+
   return (
     <>
-      <Title order={2}>Sign In</Title>
+      <Text>
+        Your code has been sent via{" "}
+        {searchParams.get("method") === "email" ? "email" : "sms"}
+      </Text>
       <form
         onSubmit={form.onSubmit(async (_, e) => {
           e?.preventDefault();
           try {
-            const data = await trigger(new LoginDTO(form));
+            const data = await trigger(
+              new LoginDTO({ ...form, values: { ...form.values, username } })
+            );
             if (data) {
               refreshUser(new User(data))
                 .then(() => {
+                  removeUsername();
                   router.push("/chat");
                 })
                 .catch(() => {
@@ -68,7 +73,9 @@ export const OtpForm = () => {
           <TextInput
             label="Username"
             className={classes.username}
+            disabled
             {...form.getInputProps("username")}
+            value={username}
           />
           <PinInput
             className={classes.pin}
@@ -82,7 +89,8 @@ export const OtpForm = () => {
             <Button
               variant="subtle"
               disabled={isMutating}
-              onClick={() => setHasPasscode(false)}
+              component="a"
+              href="/login/request-otp"
             >
               Request new code
             </Button>
@@ -95,4 +103,4 @@ export const OtpForm = () => {
       />
     </>
   );
-};
+}

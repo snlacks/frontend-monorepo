@@ -1,4 +1,4 @@
-import { PasswordForm } from "./types";
+import { PasswordForm } from "../types";
 
 export class LoginDTO {
     constructor(form: PasswordForm) {

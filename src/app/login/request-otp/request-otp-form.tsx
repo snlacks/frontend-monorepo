@@ -1,30 +1,39 @@
-import { Stack, TextInput } from "@mantine/core";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button, Stack, TextInput } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
+import { useLocalStorage } from "@mantine/hooks";
 import * as yup from "yup";
 import useSWRMutation from "swr/mutation";
 import { ErrorMessage } from "@/components/error-message";
 import { PhoneNumberInput } from "@/components/phone-number-inputs";
 import { withPhoneValidationSchema } from "@/utils/phone/phone";
-import { RequestOtpDTO } from "./request-otp-dto";
-import { SmsOtpFormValues } from "./types";
-import { useContext, useState } from "react";
 import { axiosPost } from "@/utils/fetch/axios-post";
-import { failedLoginMessage } from "./constants";
-import { RequestOtpButtons } from "./request-otp-buttons";
-import { LoginContext } from "./login-provider";
+import { failedLoginMessage } from "../constants";
+import { LOGIN_USERNAME_KEY } from "../login-username-key";
+import { RequestOtpDTO } from "../request-otp-dto";
+import { OtpFormValues } from "../types";
 
 const smsSchema = yup.object().shape({
   username: yup.string().email().required(),
   ...withPhoneValidationSchema(),
 });
 
-export const RequestOtpSmsForm = () => {
-  const { setUsernameRequested, setHasPasscode } = useContext(LoginContext);
-  const form = useForm<SmsOtpFormValues>({
+export const RequestOtpForm = ({
+  method = "sms",
+}: {
+  method?: "sms" | "email";
+}) => {
+  const [usernameStorage, setUsernameStorage] = useLocalStorage({
+    key: LOGIN_USERNAME_KEY,
+  });
+  const router = useRouter();
+  const form = useForm<OtpFormValues>({
     mode: "controlled",
     initialValues: {
-      username: "",
+      username: usernameStorage,
       regionalPhoneNumber: "",
+      method,
       countryCode: "US",
     },
     validateInputOnBlur: true,
@@ -41,8 +50,9 @@ export const RequestOtpSmsForm = () => {
       onSubmit={form.onSubmit(async (_, e) => {
         e?.preventDefault();
         try {
+          setUsernameStorage(form.values.username);
           await trigger(new RequestOtpDTO(form));
-          setUsernameRequested(form.values.username);
+          router.push("/login/verify-otp");
         } catch {
           setNetError(failedLoginMessage);
         }
@@ -57,19 +67,14 @@ export const RequestOtpSmsForm = () => {
           placeholder="your@email.com"
           {...form.getInputProps("username")}
         />
-        <PhoneNumberInput form={form} />
+        {method === "sms" && <PhoneNumberInput form={form} />}
         <ErrorMessage
           errorMessage={netError}
           onClose={() => setNetError(undefined)}
         />
-        <RequestOtpButtons
-          submitDisabled={isMutating || !form.isValid()}
-          onSkipClick={() =>
-            form.values.username
-              ? setUsernameRequested(form.values.username)
-              : setHasPasscode(true)
-          }
-        />
+        <Button type="submit" disabled={isMutating || !form.isValid()}>
+          Sign in
+        </Button>
       </Stack>
     </form>
   );

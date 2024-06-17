@@ -2,8 +2,8 @@ import { Button, NavLink, Text } from "@mantine/core";
 import { NavChevron } from "./nav-chevron";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
-import { AuthGuardPlaceholder } from "../hooks/use-auth-guard";
-import { useSignout } from "../hooks/use-signout";
+import { AuthGuardPlaceholder } from "@/hooks/use-auth-guard";
+import { useSignout } from "@/hooks/use-signout";
 
 export const NavLinksExternal = ({
   onLinkClick,

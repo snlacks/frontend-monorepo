@@ -1,15 +1,15 @@
 .closeNearThumb {
-    justify-self: end;
+  justify-self: end;
 }
 
 .nav {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .chevron {
-    width: 24px    
+  width: 24px;
 }
 
 .user {
-    justify-self: end;
+  justify-self: end;
 }

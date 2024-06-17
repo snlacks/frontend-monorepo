@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Role } from "../types";
+import { Role } from "@/types";
 import useUser from "./use-user";
 import { PropsWithChildren, useState } from "react";
 import {

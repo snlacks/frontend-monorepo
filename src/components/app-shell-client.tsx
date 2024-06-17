@@ -10,12 +10,9 @@ import {
   Title,
   Text,
   rem,
-  useMantineColorScheme,
-  SegmentedControl,
-  MantineColorScheme,
-  useComputedColorScheme,
   Accordion,
   Grid,
+  Group,
 } from "@mantine/core";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import Link from "next/link";
@@ -24,15 +21,13 @@ import classes from "./app-shell-client.module.css";
 import { PropsWithChildren } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
-import { AuthGuardSkeleton } from "../hooks/use-auth-guard";
+import { AuthGuardSkeleton } from "@/hooks/use-auth-guard";
 import { Loading } from "./loading";
-import { useSignout } from "../hooks/use-signout";
-import { useLogin } from "../hooks/use-login";
+import { useSignout } from "@/hooks/use-signout";
 import { AppSettings } from "./app-settings";
 
 export const AppShellClient = ({ children }: PropsWithChildren) => {
   const { user, isLoading, isInitial } = useUser();
-  const { isMutating: isLogginIn } = useLogin();
   const { isMutating: isSigningOut } = useSignout();
   const [opened, { toggle, close }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
@@ -54,23 +49,19 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
         mah={{ base: "initial", lg: "100vh" }}
       >
         <Grid h="100%" px="lg" align="center">
-          <Grid.Col span={2}>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              aria-label="Toggle navigation"
-            />
-          </Grid.Col>
-          <Grid.Col span={{ base: 10, md: 8 }}>
-            <Anchor component={Link} href="/" underline="never">
-              <Title
-                order={1}
-                c="var(--mantine-color-text)"
-                ta={{ base: "left", md: "center" }}
-              >
-                StevenLacks.com
-              </Title>
-            </Anchor>
+          <Grid.Col span={{ base: 12, md: 10 }}>
+            <Group>
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                aria-label="Toggle navigation"
+              />
+              <Anchor component={Link} href="/" underline="never">
+                <Title order={1} c="var(--mantine-color-text)">
+                  StevenLacks.com
+                </Title>
+              </Anchor>
+            </Group>
           </Grid.Col>
           <Grid.Col span={2} visibleFrom="md">
             <AuthGuardSkeleton skeletonLines={1}>
@@ -99,7 +90,6 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
       <AppShellMain>
         <Loading visible={isSigningOut} />
         <Loading visible={isLoading && isInitial} />
-        <Loading visible={isLogginIn} />
         {children}
       </AppShellMain>
     </AppShell>
