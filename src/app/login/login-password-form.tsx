@@ -7,6 +7,7 @@ import {
   Stack,
   TextInput,
   Text,
+  PasswordInput,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import { useRouter } from "next/navigation";
@@ -84,15 +85,12 @@ export const LoginPasswordForm = () => {
           label="Username (email)"
           type="email"
           withAsterisk
-          key={form.key("username")}
           placeholder="your@email.com"
           {...form.getInputProps("username")}
         />
-        <TextInput
+        <PasswordInput
           label="Password"
-          type="password"
           withAsterisk
-          key={form.key("password")}
           placeholder="*******"
           {...form.getInputProps("password")}
         />

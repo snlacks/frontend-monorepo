@@ -1,9 +1,10 @@
-import { Button, NavLink, Text } from "@mantine/core";
+import { Button, Group, NavLink } from "@mantine/core";
 import { NavChevron } from "./nav-chevron";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
 import { AuthGuardPlaceholder } from "@/hooks/use-auth-guard";
 import { useSignout } from "@/hooks/use-signout";
+import Link from "next/link";
 
 export const NavLinksExternal = ({
   onLinkClick,
@@ -16,8 +17,8 @@ export const NavLinksExternal = ({
     <>
       <AuthGuardPlaceholder containerProps={{ h: "200px" }}>
         {user ? (
-          <Text p="lg">
-            {user?.username}{" "}
+          <Group p="lg">
+            <Link href="/user-settings">{user?.username}</Link>
             <Button
               onClick={async () => {
                 try {
@@ -33,7 +34,7 @@ export const NavLinksExternal = ({
             >
               Sign out
             </Button>
-          </Text>
+          </Group>
         ) : (
           <>
             <NavLink

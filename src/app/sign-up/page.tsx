@@ -1,11 +1,12 @@
-import { Container, Group, Text, Title } from "@mantine/core";
+import { Group, Text, Title } from "@mantine/core";
 import { Register } from "./register";
 import { RegisterInfo } from "./register-info";
 import Link from "next/link";
+import { UserFormContainer } from "../../components/user-form-container";
 
 export default function Page() {
   return (
-    <Container maw="380px">
+    <UserFormContainer>
       <Group align="flex-start">
         <Title order={2}>Sign Up</Title>
         <RegisterInfo />
@@ -15,6 +16,6 @@ export default function Page() {
       <Text ta="center">
         <Link href={"/login"}>log in here</Link>
       </Text>
-    </Container>
+    </UserFormContainer>
   );
 }
