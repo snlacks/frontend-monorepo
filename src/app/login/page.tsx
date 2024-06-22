@@ -1,6 +1,6 @@
 "use client";
 import { Suspense } from "react";
-import { LoginPasswordForm } from "./login-password-form";
+import { LoginPasswordForm } from "./LoginPasswordForm";
 
 export default function Page() {
   return (

@@ -23,7 +23,7 @@ export const NavLinksExternal = ({
               onClick={async () => {
                 try {
                   await triggerSignOut();
-                  window.location.reload();
+                  setTimeout(() => window.location.reload(), 100);
                 } finally {
                   return;
                 }

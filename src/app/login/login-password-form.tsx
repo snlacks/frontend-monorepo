@@ -8,6 +8,8 @@ import {
   TextInput,
   Text,
   PasswordInput,
+  Loader,
+  Notification,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -97,9 +99,13 @@ export const LoginPasswordForm = () => {
             Skip to passcode
           </Button>
         </Group>
-        <Text>
-          <Link href={"/sign-up"}>Sign up</Link>
-        </Text>
+        {isMutating ? (
+          <Notification loading title="Signing in..." />
+        ) : (
+          <Text>
+            <Link href={"/sign-up"}>Sign up</Link>
+          </Text>
+        )}
       </Stack>
     </form>
   );
