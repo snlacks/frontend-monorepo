@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import { AppShellClient } from "@/components/app-shell-client";
 import { Provider } from "jotai/react";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "StevenLacks.com",
@@ -21,12 +22,14 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body>
-        <Provider>
-          <ColorSchemeScript />
-          <MantineProvider theme={theme}>
-            <AppShellClient>{children}</AppShellClient>
-          </MantineProvider>
-        </Provider>
+        <Suspense>
+          <Provider>
+            <ColorSchemeScript />
+            <MantineProvider theme={theme}>
+              <AppShellClient>{children}</AppShellClient>
+            </MantineProvider>
+          </Provider>
+        </Suspense>
       </body>
     </html>
   );

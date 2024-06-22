@@ -1,7 +1,6 @@
 "use client";
 import { Stack } from "@mantine/core";
 import useUser from "@/hooks/use-user";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { PropsWithChildren, useLayoutEffect } from "react";
 import { AuthInitialPlaceholder } from "@/hooks/use-auth-guard";
 import { Loading } from "@/components/loading";

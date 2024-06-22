@@ -1,7 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import VerifyOtpForm from "./verify-otp-form";
 
 export default function VerifyOtp() {
-  return <VerifyOtpForm />;
+  return (
+    <Suspense>
+      <VerifyOtpForm />
+    </Suspense>
+  );
 }

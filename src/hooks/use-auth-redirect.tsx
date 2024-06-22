@@ -26,8 +26,8 @@ export const useAuthRedirect = () => {
       if (redirect && allowableRedirect(redirect)) {
         window.location.href = redirect;
       } else {
+        router.push("/");
       }
-      router.push("/");
     }
   }, [router, searchParams, user]);
 };
