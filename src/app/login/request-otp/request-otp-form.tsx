@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Stack, TextInput } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
-import { useLocalStorage } from "@mantine/hooks";
 import * as yup from "yup";
 import useSWRMutation from "swr/mutation";
 import { ErrorMessage } from "@/components/error-message";
@@ -10,7 +9,6 @@ import { PhoneNumberInput } from "@/components/phone-number-inputs";
 import { withPhoneValidationSchema } from "@/utils/phone/phone";
 import { axiosPost } from "@/utils/fetch/axios-post";
 import { failedLoginMessage } from "../constants";
-import { LOGIN_USERNAME_KEY } from "../login-username-key";
 import { RequestOtpDTO } from "../request-otp-dto";
 import { OtpFormValues } from "../types";
 
@@ -24,14 +22,11 @@ export const RequestOtpForm = ({
 }: {
   method?: "sms" | "email";
 }) => {
-  const [usernameStorage, setUsernameStorage] = useLocalStorage({
-    key: LOGIN_USERNAME_KEY,
-  });
   const router = useRouter();
   const form = useForm<OtpFormValues>({
     mode: "controlled",
     initialValues: {
-      username: usernameStorage,
+      username: "",
       regionalPhoneNumber: "",
       method,
       countryCode: "US",
@@ -50,15 +45,16 @@ export const RequestOtpForm = ({
       onSubmit={form.onSubmit(async (_, e) => {
         e?.preventDefault();
         try {
-          setUsernameStorage(form.values.username);
           await trigger(new RequestOtpDTO(form));
-          router.push("/login/verify-otp");
+          router.push(
+            `/login/verify-otp?method=sms&username=${form.values.username}`
+          );
         } catch {
           setNetError(failedLoginMessage);
         }
       })}
     >
-      <Stack p="lg" gap="lg">
+      <Stack gap="lg">
         <TextInput
           label="Username (email)"
           type="email"

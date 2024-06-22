@@ -1,6 +1,14 @@
 "use client";
-import { Stack, Button, TextInput, PinInput, Group, Text } from "@mantine/core";
-import { useState } from "react";
+import {
+  Stack,
+  Button,
+  TextInput,
+  PinInput,
+  Group,
+  Text,
+  Alert,
+} from "@mantine/core";
+import { use, useState } from "react";
 import { ErrorMessage } from "@/components/error-message";
 import { useForm, yupResolver } from "@mantine/form";
 import { LoginDTO } from "./login-dto";
@@ -14,8 +22,6 @@ import { UserResponse } from "@/types";
 import { User } from "@/User";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./verify-otp-form.module.css";
-import { useLocalStorage } from "@mantine/hooks";
-import { LOGIN_USERNAME_KEY } from "../login-username-key";
 
 const loginSchema = yup.object().shape({
   username: yup.string().email(),
@@ -25,14 +31,14 @@ const loginSchema = yup.object().shape({
 export default function VerifyOtp() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [username, , removeUsername] = useLocalStorage({
-    key: LOGIN_USERNAME_KEY,
-  });
   const { mutate: refreshUser } = useUser();
   const [netError, setNetError] = useState<string>();
   const form = useForm({
     mode: "controlled",
-    initialValues: { username, password: "" },
+    initialValues: {
+      username: searchParams.get("username") || "",
+      password: "",
+    },
     validate: yupResolver(loginSchema),
   });
 
@@ -43,21 +49,28 @@ export default function VerifyOtp() {
 
   return (
     <>
-      <Text>
-        Your code has been sent via{" "}
-        {searchParams.get("method") === "email" ? "email" : "sms"}
-      </Text>
+      <Alert
+        color="green"
+        title={`Your code has been sent via ${
+          searchParams.get("method") === "email" ? "email" : "sms"
+        }`}
+      />
       <form
         onSubmit={form.onSubmit(async (_, e) => {
           e?.preventDefault();
           try {
             const data = await trigger(
-              new LoginDTO({ ...form, values: { ...form.values, username } })
+              new LoginDTO({
+                ...form,
+                values: {
+                  ...form.values,
+                  username: searchParams.get("username") || "",
+                },
+              })
             );
             if (data) {
               refreshUser(new User(data))
                 .then(() => {
-                  removeUsername();
                   router.push("/chat");
                 })
                 .catch(() => {
@@ -69,20 +82,15 @@ export default function VerifyOtp() {
           }
         })}
       >
-        <Stack p="lg" gap="lg">
+        <Stack gap="lg">
           <TextInput
             label="Username"
-            className={classes.username}
             disabled
             {...form.getInputProps("username")}
-            value={username}
+            value={searchParams.get("username") || ""}
           />
-          <PinInput
-            className={classes.pin}
-            length={6}
-            {...form.getInputProps("password")}
-          />
-          <Group gap="sm" justify="center">
+          <PinInput length={6} size="lg" {...form.getInputProps("password")} />
+          <Group gap="sm">
             <Button type="submit" disabled={isMutating}>
               Submit
             </Button>

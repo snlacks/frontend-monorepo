@@ -15,7 +15,7 @@ export default function Layout({ children }: PropsWithChildren) {
   }
   return (
     <UserFormContainer>
-      <Stack gap="md" justify="center" ta="center">
+      <Stack gap="md">
         {user ? (
           <Loading visible />
         ) : (

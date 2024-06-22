@@ -7,7 +7,6 @@ export default function RequestOtp() {
   return (
     <>
       <RequestOtpForm />
-      <Text>Have an invitation to create an account?</Text>
       <Text>
         <Link href={"/sign-up"}>Sign up</Link>
       </Text>

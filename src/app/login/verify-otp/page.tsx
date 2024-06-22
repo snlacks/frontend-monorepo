@@ -1,11 +1,7 @@
 "use client";
 
-import { useLocalStorage } from "@mantine/hooks";
-import { LOGIN_USERNAME_KEY } from "../login-username-key";
+import VerifyOtpForm from "./verify-otp-form";
 
 export default function VerifyOtp() {
-  const [username] = useLocalStorage({
-    key: LOGIN_USERNAME_KEY,
-  });
-  return username ? <VerifyOtp /> : null;
+  return <VerifyOtpForm />;
 }

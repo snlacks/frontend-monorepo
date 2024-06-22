@@ -18,9 +18,7 @@ import { LoginPasswordFormValues } from "./types";
 import { axiosPost } from "@/utils/fetch/axios-post";
 import useUser from "@/hooks/use-user";
 import { ErrorMessage } from "@/components/error-message";
-import { useLocalStorage } from "@mantine/hooks";
 import { SmsResponse, UserResponse } from "@/types";
-import { LOGIN_USERNAME_KEY } from "./login-username-key";
 import { LoginPasswordDTO } from "./login-password.dto";
 import { failedLoginMessage } from "./constants";
 
@@ -30,9 +28,6 @@ const passwordSchema = yup.object().shape({
 });
 
 export const LoginPasswordForm = () => {
-  const [, setUsernameStorage, removeUsernameStorage] = useLocalStorage({
-    key: LOGIN_USERNAME_KEY,
-  });
   const { mutate } = useUser();
   const form = useForm<LoginPasswordFormValues>({
     mode: "controlled",
@@ -55,10 +50,6 @@ export const LoginPasswordForm = () => {
     //   },
     // }
   );
-  useLayoutEffect(() => {
-    removeUsernameStorage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <form
@@ -67,19 +58,20 @@ export const LoginPasswordForm = () => {
         setNetError(undefined);
         try {
           const d = await trigger(new LoginPasswordDTO(form));
-          setUsernameStorage(form.values.username);
           if (d.hasOwnProperty("user_id")) {
             await mutate();
             router.push("/chat");
           } else {
-            router.push("/login/verify-otp?method=email");
+            router.push(
+              `/login/verify-otp?method=email&username=${form.values.username}`
+            );
           }
         } catch {
           setNetError(failedLoginMessage);
         }
       })}
     >
-      <Stack p="lg" gap="lg">
+      <Stack gap="lg" ta="left">
         {(data ?? isMutating) && <LoadingOverlay />}
         <TextInput
           label="Username (email)"
@@ -99,7 +91,7 @@ export const LoginPasswordForm = () => {
           errorMessage={netError}
           onClose={() => setNetError(undefined)}
         />
-        <Group gap="sm" justify="center">
+        <Group gap="sm">
           <Button type="submit" disabled={isMutating || !form.isValid()}>
             Sign in
           </Button>
@@ -107,10 +99,10 @@ export const LoginPasswordForm = () => {
             Skip to passcode
           </Button>
         </Group>
+        <Text>
+          <Link href={"/sign-up"}>Sign up</Link>
+        </Text>
       </Stack>
-      <Text>
-        <Link href={"/sign-up"}>Sign up</Link>
-      </Text>
     </form>
   );
 };
