@@ -69,13 +69,9 @@ export default function VerifyOtp() {
               })
             );
             if (data) {
-              refreshUser(new User(data))
-                .then(() => {
-                  router.push("/chat");
-                })
-                .catch(() => {
-                  throw "";
-                });
+              refreshUser().catch(() => {
+                throw "";
+              });
             }
           } catch {
             setNetError(failedLoginMessage);

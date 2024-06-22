@@ -29,7 +29,7 @@ const passwordSchema = yup.object().shape({
 
 export const LoginPasswordForm = () => {
   const searchParams = useSearchParams();
-  const { mutate } = useUser();
+  const { mutate: refreshUser } = useUser();
   const form = useForm<LoginPasswordFormValues>({
     mode: "controlled",
     initialValues: {
@@ -45,11 +45,6 @@ export const LoginPasswordForm = () => {
   const { data, trigger, isMutating } = useSWRMutation(
     "/auth/login-password",
     axiosPost<LoginPasswordDTO, UserResponse | SmsResponse>
-    // {
-    //   onSuccess: (d: UserResponse | SmsResponse) => {
-    //     d.hasOwnProperty("user_id") ?? router.push("/ai-chat");
-    //   },
-    // }
   );
 
   return (
@@ -59,16 +54,15 @@ export const LoginPasswordForm = () => {
         setNetError(undefined);
         try {
           const d = await trigger(new LoginPasswordDTO(form));
-          if (d.hasOwnProperty("user_id")) {
-            await mutate();
-            router.push("/chat");
-          } else {
+          if (!d.hasOwnProperty("user_id")) {
             const newSearchParams = new URLSearchParams({
               method: "email",
               username: form.values.username,
               redirect: `${searchParams.get("redirect")}`,
             });
             router.push(`/login/verify-otp?${newSearchParams}`);
+          } else {
+            refreshUser();
           }
         } catch {
           setNetError(failedLoginMessage);
