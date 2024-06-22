@@ -10,7 +10,7 @@ import {
   PasswordInput,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import * as yup from "yup";
 import useSWRMutation from "swr/mutation";
 import Link from "next/link";
@@ -28,6 +28,7 @@ const passwordSchema = yup.object().shape({
 });
 
 export const LoginPasswordForm = () => {
+  const searchParams = useSearchParams();
   const { mutate } = useUser();
   const form = useForm<LoginPasswordFormValues>({
     mode: "controlled",
@@ -62,9 +63,12 @@ export const LoginPasswordForm = () => {
             await mutate();
             router.push("/chat");
           } else {
-            router.push(
-              `/login/verify-otp?method=email&username=${form.values.username}`
-            );
+            const newSearchParams = new URLSearchParams({
+              method: "email",
+              username: form.values.username,
+              redirect: `${searchParams.get("redirect")}`,
+            });
+            router.push(`/login/verify-otp?${newSearchParams}`);
           }
         } catch {
           setNetError(failedLoginMessage);

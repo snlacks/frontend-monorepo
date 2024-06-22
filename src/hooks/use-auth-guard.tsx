@@ -20,7 +20,7 @@ import { Loading } from "@/components/loading";
  * @returns
  */
 export const useAuthGuard = (redirect?: boolean, eligibleRoles?: Role[]) => {
-  const { user, isInitial } = useUser();
+  const { user, isInitial, isLoading } = useUser();
   const router = useRouter();
   const hasRole = !!user?.roles.some(({ roleId }) => {
     return eligibleRoles?.some((el) => roleId === el.roleId);
@@ -36,7 +36,7 @@ export const useAuthGuard = (redirect?: boolean, eligibleRoles?: Role[]) => {
       router.push("/login");
     }
   }
-  return { isInitial, user };
+  return { isInitial, user, isLoading };
 };
 
 export const AuthGuardWrapper = ({
@@ -50,15 +50,10 @@ export const AuthGuardWrapper = ({
 }>) => {
   const { isInitial } = useAuthGuard(redirect, eligibleRoles);
 
-  return (
-    <>
-      <Loading visible={isInitial} />
-      {children}
-    </>
-  );
+  return isInitial ? <Loading visible={isInitial} /> : <>{children}</>;
 };
 
-export const AuthGuardPlaceholder = ({
+export const AuthInitialPlaceholder = ({
   eligibleRoles,
   loaderProps = {},
   containerProps = {},
@@ -86,7 +81,7 @@ export const AuthGuardPlaceholder = ({
   );
 };
 
-export const AuthGuardSkeleton = ({
+export const AuthInitialSkeleton = ({
   eligibleRoles,
   skeletonLines = 1,
   skeletonProps = {},

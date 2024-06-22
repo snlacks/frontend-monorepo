@@ -1,7 +1,7 @@
 "use client";
 import { Box, Center, Title, Transition } from "@mantine/core";
 import Link from "next/link";
-import { AuthGuardSkeleton } from "@/hooks/use-auth-guard";
+import { AuthInitialSkeleton } from "@/hooks/use-auth-guard";
 import classes from "./page.module.css";
 import useUser from "@/hooks/use-user";
 
@@ -26,13 +26,13 @@ export default function Home() {
         </Center>
       </Box>
       <Box p="md">
-        <AuthGuardSkeleton skeletonProps={{ w: 100 }}>
+        <AuthInitialSkeleton skeletonProps={{ w: 100 }}>
           {user ? (
             <Link href="/chat">Go to chat.</Link>
           ) : (
             <Link href="/login">Sign in</Link>
           )}
-        </AuthGuardSkeleton>
+        </AuthInitialSkeleton>
       </Box>
     </main>
   );

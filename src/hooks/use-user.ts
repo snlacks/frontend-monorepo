@@ -5,7 +5,7 @@ import { User } from '@/User'
 import { useEffect, useState } from 'react';
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_AUTH_SERVER;
-// axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.withCredentials = true;
 
 const fetcher = (path: string) => axios.post<UserResponse>(path)

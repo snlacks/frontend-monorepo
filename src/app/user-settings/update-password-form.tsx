@@ -11,6 +11,7 @@ import { UpdatePasswordForm } from "./types";
 import axios from "axios";
 import { useState } from "react";
 import { ErrorMessage } from "../../components/error-message";
+import useUser from "../../hooks/use-user";
 
 const updatePassSchema = yup.object().shape({
   username: yup.string().required(),
@@ -21,10 +22,15 @@ const updatePassSchema = yup.object().shape({
 const fetcher = (path: string, { arg }: { arg: UpdatePasswordDTO }) =>
   axios({ url: path, data: arg, method: "PUT" }).then((d) => d);
 
-export const UpdatePassword = ({ username }: { username: string }) => {
+export const UpdatePassword = () => {
+  const { user } = useUser();
   const form = useForm<UpdatePasswordForm>({
     mode: "controlled",
-    initialValues: { username, oldPassword: "", newPassword: "" },
+    initialValues: {
+      username: user?.username || "",
+      oldPassword: "",
+      newPassword: "",
+    },
     validate: yupResolver(updatePassSchema),
     validateInputOnBlur: true,
   });
@@ -53,11 +59,6 @@ export const UpdatePassword = ({ username }: { username: string }) => {
             }
           })}
         >
-          <input
-            type="hidden"
-            {...form.getInputProps("username")}
-            value={username}
-          />
           <PasswordInput
             label="Old Password"
             {...form.getInputProps("oldPassword")}

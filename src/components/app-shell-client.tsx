@@ -21,7 +21,7 @@ import classes from "./app-shell-client.module.css";
 import { PropsWithChildren } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
-import { AuthGuardSkeleton } from "@/hooks/use-auth-guard";
+import { AuthInitialSkeleton } from "@/hooks/use-auth-guard";
 import { Loading } from "./loading";
 import { useSignout } from "@/hooks/use-signout";
 import { AppSettings } from "./app-settings";
@@ -64,9 +64,9 @@ export const AppShellClient = ({ children }: PropsWithChildren) => {
             </Group>
           </Grid.Col>
           <Grid.Col span={2} visibleFrom="md">
-            <AuthGuardSkeleton skeletonLines={1}>
+            <AuthInitialSkeleton skeletonLines={1}>
               <Text className={classes.user}>{user?.username}</Text>
-            </AuthGuardSkeleton>
+            </AuthInitialSkeleton>
           </Grid.Col>
         </Grid>
       </AppShellHeader>

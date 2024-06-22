@@ -2,7 +2,7 @@ import { Button, Group, NavLink } from "@mantine/core";
 import { NavChevron } from "./nav-chevron";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import useUser from "@/hooks/use-user";
-import { AuthGuardPlaceholder } from "@/hooks/use-auth-guard";
+import { AuthInitialPlaceholder } from "@/hooks/use-auth-guard";
 import { useSignout } from "@/hooks/use-signout";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ export const NavLinksExternal = ({
   const { isMutating, trigger: triggerSignOut } = useSignout();
   return (
     <>
-      <AuthGuardPlaceholder containerProps={{ h: "200px" }}>
+      <AuthInitialPlaceholder containerProps={{ h: "200px" }}>
         {user ? (
           <Group p="lg">
             <Link href="/user-settings">{user?.username}</Link>
@@ -53,7 +53,7 @@ export const NavLinksExternal = ({
             />
           </>
         )}
-      </AuthGuardPlaceholder>
+      </AuthInitialPlaceholder>
       <NavLink
         p="lg"
         href="https://www.linkedin.com/in/stevenlacks/"
