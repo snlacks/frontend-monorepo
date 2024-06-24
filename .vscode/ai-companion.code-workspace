@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"workbench.preferredDarkColorTheme": "Zenburn Dark Matter - Flat - Komodo",
+		"workbench.colorTheme": "Zenburn Dark Matter - Warm - Klimt",
+		"workbench.preferredHighContrastColorTheme": "Default High Contrast Light"
+	}
+}
