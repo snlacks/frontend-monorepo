@@ -6,7 +6,10 @@
 	],
 	"settings": {
 		"workbench.preferredDarkColorTheme": "Zenburn Dark Matter - Flat - Komodo",
-		"workbench.colorTheme": "Zenburn Dark Matter - Warm - Klimt",
-		"workbench.preferredHighContrastColorTheme": "Default High Contrast Light"
+		"workbench.colorTheme": "Color Blind Light",
+		"workbench.preferredHighContrastColorTheme": "Default High Contrast Light",
+		"files.associations": {
+			"*.css": "tailwindscss"
+		}
 	}
 }

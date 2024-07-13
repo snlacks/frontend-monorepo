@@ -1,13 +1,11 @@
 import { Group, NativeSelect, TextInput, Text } from "@mantine/core";
-import countryCodes from "@/utils/phone/country-code-data.json";
-import { getCountryPrefix } from "@/utils/phone/phone";
-import {
-  FormValuesWithPhoneNumber,
-  FormWithPhoneNumber,
-} from "@/utils/phone/types";
+import countryCodes from "@snlacks-fe/user/country-code-data.json";
+import { UseFormReturnType } from "@mantine/form";
+import { getCountryPrefix } from "@snlacks-fe/user";
+import { HasPhoneNumbers } from "@snlacks-fe/user/types";
 
-export const PhoneNumberInput: <T extends FormValuesWithPhoneNumber>(props: {
-  form: FormWithPhoneNumber<T>;
+export const PhoneNumberInput: <T extends HasPhoneNumbers>(props: {
+  form: UseFormReturnType<T, () => T>;
 }) => JSX.Element = ({ form }) => {
   const prefix = getCountryPrefix(form.values.countryCode);
   return (

@@ -21,13 +21,8 @@ import { axiosPost } from "@/utils/fetch/axios-post";
 import useUser from "@/hooks/use-user";
 import { ErrorMessage } from "@/components/error-message";
 import { SmsResponse, UserResponse } from "@/types";
-import { LoginPasswordDTO } from "./login-password.dto";
+import { LoginPasswordSchema, LoginPasswordDTO } from "@snlacks-fe/user";
 import { failedLoginMessage } from "./constants";
-
-const passwordSchema = yup.object().shape({
-  username: yup.string().required(),
-  password: yup.string().required(),
-});
 
 export const LoginPasswordForm = () => {
   const searchParams = useSearchParams();
@@ -39,7 +34,7 @@ export const LoginPasswordForm = () => {
       password: "",
     },
     validateInputOnBlur: true,
-    validate: yupResolver(passwordSchema),
+    validate: yupResolver(LoginPasswordSchema),
   });
   const [netError, setNetError] = useState<string | undefined>();
   const router = useRouter();

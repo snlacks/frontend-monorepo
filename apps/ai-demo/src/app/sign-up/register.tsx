@@ -5,18 +5,17 @@ import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import classes from "./register.module.css";
-import { RegisterForm } from "./types";
 import { registerSchema } from "./register-schema";
-import { CreateUserDTO } from "./create-user-dto";
 import { SuccessModal } from "./success-modal";
 import { ErrorMessage } from "@/components/error-message";
 import { PhoneNumberInput } from "@/components/phone-number-inputs";
 import { axiosPost } from "@/utils/fetch/axios-post";
 import { axiosSafeError } from "@/utils/fetch/axios-safe-error";
 import { UserResponse } from "@/types";
+import { CreateUserDTO, CreateUserFormValues } from "@snlacks-fe/user";
 
 export const Register = () => {
-  const form = useForm<RegisterForm>({
+  const form = useForm<CreateUserFormValues>({
     mode: "controlled",
     initialValues: {
       username: "",

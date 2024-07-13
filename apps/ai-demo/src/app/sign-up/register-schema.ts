@@ -1,13 +1,12 @@
-
 import * as yup from "yup";
-import { RegisterForm } from "./types";
-import { withPhoneValidationSchema } from "@/utils/phone/phone";
 import { requiredMessage } from "@/constants";
+import { CreateUserFormValues } from "@snlacks-fe/user/types";
+import { withPhoneValidationSchema } from "@snlacks-fe/user";
 
-export const registerSchema = yup.object<RegisterForm>({
-    username: yup
-        .string()
-        .email("Username must be a valid email")
-        .required(requiredMessage),
-    ...withPhoneValidationSchema()
+export const registerSchema = yup.object<CreateUserFormValues>({
+  username: yup
+    .string()
+    .email("Username must be a valid email")
+    .required(requiredMessage),
+  ...withPhoneValidationSchema(),
 });

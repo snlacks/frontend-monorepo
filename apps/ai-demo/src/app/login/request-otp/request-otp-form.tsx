@@ -6,11 +6,14 @@ import * as yup from "yup";
 import useSWRMutation from "swr/mutation";
 import { ErrorMessage } from "@/components/error-message";
 import { PhoneNumberInput } from "@/components/phone-number-inputs";
-import { withPhoneValidationSchema } from "@/utils/phone/phone";
+s;
 import { axiosPost } from "@/utils/fetch/axios-post";
 import { failedLoginMessage } from "../constants";
-import { RequestOtpDTO } from "../request-otp-dto";
-import { OtpFormValues } from "../types";
+import {
+  OtpFormValues,
+  RequestOtpDTO,
+  withPhoneValidationSchema,
+} from "@snlacks-fe/user";
 
 const smsSchema = yup.object().shape({
   username: yup.string().email().required(),

@@ -1,6 +1,6 @@
-import { FormValuesWithPhoneNumber } from "@/utils/phone/types";
+import { HasPhoneNumbers } from "@snlacks-fe/user/types";
 
 export type RegisterForm = {
-    username: string;
-    password: string;
-} & FormValuesWithPhoneNumber;
+  username: string;
+  password: string;
+} & HasPhoneNumbers;

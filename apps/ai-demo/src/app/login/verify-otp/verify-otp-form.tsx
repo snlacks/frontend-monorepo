@@ -11,7 +11,6 @@ import {
 import { use, useState } from "react";
 import { ErrorMessage } from "@/components/error-message";
 import { useForm, yupResolver } from "@mantine/form";
-import { LoginDTO } from "./login-dto";
 import useSWRMutation from "swr/mutation";
 import { axiosPost } from "@/utils/fetch/axios-post";
 import useUser from "@/hooks/use-user";
@@ -19,9 +18,9 @@ import * as yup from "yup";
 
 import { failedLoginMessage } from "../constants";
 import { UserResponse } from "@/types";
-import { User } from "@/User";
 import { useRouter, useSearchParams } from "next/navigation";
 import classes from "./verify-otp-form.module.css";
+import { VerifyDTO } from "@snlacks-fe/user";
 
 const loginSchema = yup.object().shape({
   username: yup.string().email(),
@@ -44,7 +43,7 @@ export default function VerifyOtp() {
 
   const { trigger, isMutating } = useSWRMutation(
     "/auth/login",
-    axiosPost<LoginDTO, UserResponse>
+    axiosPost<VerifyDTO, UserResponse>
   );
 
   return (
@@ -60,7 +59,7 @@ export default function VerifyOtp() {
           e?.preventDefault();
           try {
             const data = await trigger(
-              new LoginDTO({
+              new VerifyDTO({
                 ...form,
                 values: {
                   ...form.values,

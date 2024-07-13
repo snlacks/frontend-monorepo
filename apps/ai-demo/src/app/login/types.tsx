@@ -1,7 +1,7 @@
-import { FormValuesWithPhoneNumber } from "@/utils/phone/types";
 import { UseFormReturnType } from "@mantine/form";
+import { HasPhoneNumbers } from "@snlacks-fe/user/types";
 
-export interface OtpFormValues extends FormValuesWithPhoneNumber {
+export interface OtpFormValues extends HasPhoneNumbers {
   username: string;
   method: string;
 }

@@ -1,0 +1,13 @@
+{
+  "name": "@snlacks-fe/user",
+  "dependencies": {
+    "typescript": "^5.5.3",
+    "lodash": "^4.17.21",
+    "google-libphonenumber": "^3.2.34",
+    "@mantine/core": "^7.11.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.6",
+    "@types/google-libphonenumber": "^7.4.30"
+  }
+}

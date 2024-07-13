@@ -1,0 +1,33 @@
+FROM node:current-alpine AS build
+
+RUN mkdir -p project
+WORKDIR /project
+VOLUME /project
+
+COPY ./package.json package.json
+COPY ./package-lock.json package-lock.json
+COPY ./apps/markdun apps/markdun
+COPY ./packages packages
+
+ENV NEXT_PUBLIC_AUTH_SERVER="https://markdun.com/id"
+RUN npm install
+RUN npm run build --workspace=markdun
+
+RUN mkdir apps/markdun/.next/standalone/apps/markdun/.next/static
+RUN cp -r apps/markdun/.next/static apps/markdun/.next/standalone/apps/markdun/.next/
+RUN cp -r apps/markdun/public apps/markdun/.next/standalone/apps/markdun/
+
+EXPOSE 3000
+
+FROM node:current-alpine
+
+WORKDIR /project
+
+COPY --from=build /project/apps/markdun/.next/standalone/ .
+
+EXPOSE 3000
+CMD ["node", "apps/markdun/server.js"]
+
+
+# docker build --no-cache -f Dockerfile.markdun-auth -t auth-node .
+# docker build --no-cache --network=host -f Dockerfile.markdun-auth -t auth-node .

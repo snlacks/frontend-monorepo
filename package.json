@@ -2,6 +2,12 @@
   "name": "frontend-monorepo",
   "workspaces": [
     "apps/ai-demo",
-    "apps/markdun"
-  ]
+    "apps/markdun",
+    "packages/components",
+    "packages/config",
+    "packages/user"
+  ],
+  "dependencies": {
+    "yup": "^1.4.0"
+  }
 }
